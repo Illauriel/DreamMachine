@@ -28,13 +28,16 @@ public class InputManager : MonoBehaviour {
 			Debug.LogError("An Interact script is not attached to the main camera!");
 		}
 		game_controller = gameObject.GetComponent<GameController>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)){
 			//Vector3 destination = Vector3.zero;
-			RayProbe();
+			if (game_controller.cur_state != GameController.GameStates.Combat){
+				RayProbe();
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.Space)){
 			game_controller.TogglePause();
@@ -52,9 +55,9 @@ public class InputManager : MonoBehaviour {
 			//if the hit obj is an interactive object
 			if (hit.collider.gameObject.layer == 8){
 				//check distance
-				Debug.Log(hit.collider.name);
+				//Debug.Log(hit.collider.name);
 				float interact_dist = Vector3.Distance(hit.transform.position, player.transform.position);
-				Debug.Log(interact_dist);
+				//Debug.Log(interact_dist);
 				if (interact_dist <= 1.5f){
 					interact.AnalyzeItem(hit);
 				}

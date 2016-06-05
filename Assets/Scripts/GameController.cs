@@ -13,8 +13,11 @@ public class GameController : MonoBehaviour {
 	Animator[] animators;
 	AudioSource[] audiosources;
 	Motor[] motors;
+	//Combat
+	BasicEnemy[] enemies;
 
 	PlayerVoice pVoice;
+	Pathfinding pathfinder;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +27,9 @@ public class GameController : MonoBehaviour {
 		audiosources = LevelInitiator.FindObjectsOfTypeWithTag<AudioSource>("AffectedByPause");
 		//motors = LevelInitiator.FindObjectsOfTypeWithTag<Motor>("AffectedByPause");
 		motors = GameObject.FindObjectsOfType<Motor>(); //Basically every motor is paused
+
+		enemies = GameObject.FindObjectsOfType<BasicEnemy>();
+		pathfinder = GameObject.FindObjectOfType<Pathfinding>();
 
 	}
 	
@@ -53,6 +59,12 @@ public class GameController : MonoBehaviour {
 		for (int i = 0; i < motors.Length; i++) {
 			motors[i].HaltMotor();
 		}
+		for (int i = 0; i < animators.Length; i++) {
+			animators[i].enabled = false;
+		}
+		for (int i = 0; i < audiosources.Length; i++) {
+			audiosources[i].Pause();
+		}
 	}
 	public void Unpause(){
 		cur_state = prev_state;
@@ -65,5 +77,32 @@ public class GameController : MonoBehaviour {
 		for (int i = 0; i < motors.Length; i++) {
 			motors[i].RestartMotor();
 		}
+		for (int i = 0; i < animators.Length; i++) {
+			animators[i].enabled = true;
+		}
+		for (int i = 0; i < audiosources.Length; i++) {
+			audiosources[i].Play();
+		}
+	}
+
+	public void StartCombat(){
+		prev_state = cur_state;
+		cur_state = GameStates.Combat;
+		Debug.Log("Game Switching to Combat state!");
+		for (int i = 0; i < enemies.Length; i++) {
+			enemies[i].state = BasicEnemy.State.Combat;
+
+			pathfinder.ActivateNodes(enemies[i].transform.position);
+
+		}
+		Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+		pathfinder.ActivateNodes(player.position);
+		Debug.Log("Player "+player+" Activates grid!");
+
+		for (int i = 0; i < agents.Length; i++) {
+			Vector3 node_center = pathfinder.FindClosestNode(agents[i].transform.position).Pos;
+			agents[i].StrafeTo(node_center);
+		}
+
 	}
 }

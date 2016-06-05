@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (NavMeshAgent))]
+
 public class AgentController : MonoBehaviour {
 	//Controls AI and player characters outside combat with Navmesh and in combat
 	//with A* tile-pathfindina
@@ -9,16 +11,21 @@ public class AgentController : MonoBehaviour {
 	public float walkingSpeed;
 	public float runningSpeed;
 
-	public AudioClip[] stepSounds;
+
 
 	public GameObject destMarker;
 	GameObject marker;
+	//Walk sounds
+	public AudioClip[] stepSounds;
 	float step_timer;
 	AudioSource stepSrc;
 
+	//Node movement
 	Pathfinding pathfinding;
+	public Transform[] patrolNodes;
+	int curNode;
+	Vector3[] pathNodes;
 
-	GameController gc;
 
 	//values for pausing
 	bool sv_autobraking;
@@ -26,7 +33,8 @@ public class AgentController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gc = LevelInitiator.GetGameController();
+		//gc = LevelInitiator.GetGameController();
+		pathfinding = GameObject.FindObjectOfType<Pathfinding>();
 		agent = LevelInitiator.GetAgent(gameObject);
 		marker = (GameObject) Instantiate(destMarker, agent.transform.position, Quaternion.identity);
 		stepSrc = gameObject.AddComponent<AudioSource>();
@@ -98,6 +106,46 @@ public class AgentController : MonoBehaviour {
 		marker.transform.position = agent.destination+Vector3.up; 
 		marker.transform.localScale = Vector3.one* 0.2f + Vector3.up;
 	}
+	//Overload for slow walker
+	public void MoveToPoint(Vector3 point, bool isWalking){
+		MoveToPoint(point);
+		if (isWalking){
+			agent.speed = walkingSpeed;
+		}
+		else{
+			agent.speed = runningSpeed;
+		}
+	}
+	public void StrafeTo(Vector3 point){
+		agent.destination = point;
+		agent.autoBraking = true;
+		agent.updateRotation = false;
+
+	}
+
+	public void MoveInPath(){
+		if (agent.remainingDistance <= 0.1f){
+			GoToNextNode();
+		}
+	}
+	public void MoveInPath(float speed){
+		MoveInPath();
+		agent.speed = speed;
+	}
+
+	void GoToNextNode(){
+		curNode++;
+		if (curNode == pathNodes.Length-1){
+			agent.autoBraking = true;
+		}
+		if (curNode >= pathNodes.Length){
+			//FindNewPath();
+			curNode = 0;
+			agent.autoBraking = false;
+		}
+		agent.destination = pathNodes[curNode];
+		//agent.SetDestination(pathfinder.allNodes[Random.Range(0, pathfinder.allNodes.Length-1)].Pos);
+	}
 
 	/*void MoveInDirection(Vector2 axes){
 		//agent.transform.Translate(agent.transform.forward * Input.GetAxis("Vertical"));
@@ -127,5 +175,15 @@ public class AgentController : MonoBehaviour {
 			//Destroy(src, src.clip.length);
 		}
 	}
+	public void StartPatrol(){
+		pathNodes = new Vector3[patrolNodes.Length];
+		for (int i = 0; i < patrolNodes.Length; i++) {
+			pathNodes[i] = patrolNodes[i].position;
+		}
+	
+	}	
+
+	public void Attack(){
 		
+	}
 }
