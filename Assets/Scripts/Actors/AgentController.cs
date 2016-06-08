@@ -24,8 +24,10 @@ public class AgentController : MonoBehaviour {
 	Pathfinding pathfinding;
 	public Transform[] patrolNodes;
 	int curNode;
+	int movePoints;
 	Vector3[] pathNodes;
-
+	bool patroling;
+	public bool destReached;
 
 	//values for pausing
 	bool sv_autobraking;
@@ -35,7 +37,7 @@ public class AgentController : MonoBehaviour {
 	void Start () {
 		//gc = LevelInitiator.GetGameController();
 		pathfinding = GameObject.FindObjectOfType<Pathfinding>();
-		agent = LevelInitiator.GetAgent(gameObject);
+		agent = GetComponent<NavMeshAgent>();
 		marker = (GameObject) Instantiate(destMarker, agent.transform.position, Quaternion.identity);
 		stepSrc = gameObject.AddComponent<AudioSource>();
 		stepSrc.spatialBlend = 1;
@@ -63,7 +65,7 @@ public class AgentController : MonoBehaviour {
 				step_timer = 40f;
 			}
 		}
-
+		//Marker
 		if (marker.transform.localScale.y > 0){
 			marker.transform.localScale -= Vector3.up * Time.deltaTime * 2;
 			marker.transform.Translate(Vector3.down * Time.deltaTime);
@@ -124,9 +126,11 @@ public class AgentController : MonoBehaviour {
 	}
 
 	public void MoveInPath(){
+		
 		if (agent.remainingDistance <= 0.1f){
 			GoToNextNode();
 		}
+
 	}
 	public void MoveInPath(float speed){
 		MoveInPath();
@@ -135,16 +139,24 @@ public class AgentController : MonoBehaviour {
 
 	void GoToNextNode(){
 		curNode++;
+		movePoints--;
 		if (curNode == pathNodes.Length-1){
 			agent.autoBraking = true;
 		}
 		if (curNode >= pathNodes.Length){
-			//FindNewPath();
-			curNode = 0;
-			agent.autoBraking = false;
+			if (patroling){
+				curNode = 0;
+				agent.autoBraking = false;
+			}
+			else{
+				curNode = pathNodes.Length-1;
+				destReached = true;
+			}
 		}
-		agent.destination = pathNodes[curNode];
-		//agent.SetDestination(pathfinder.allNodes[Random.Range(0, pathfinder.allNodes.Length-1)].Pos);
+		if (pathNodes.Length > 0){
+			agent.destination = pathNodes[curNode];
+			//agent.SetDestination(pathfinder.allNodes[Random.Range(0, pathfinder.allNodes.Length-1)].Pos);
+		}
 	}
 
 	/*void MoveInDirection(Vector2 axes){
@@ -180,10 +192,38 @@ public class AgentController : MonoBehaviour {
 		for (int i = 0; i < patrolNodes.Length; i++) {
 			pathNodes[i] = patrolNodes[i].position;
 		}
-	
+		patroling = true;
 	}	
+	public void CleanPath(){
+		pathNodes = new Vector3[0];
+	}
 
 	public void Attack(){
 		
+	}
+
+	public void ApproachTarget(Transform trg){
+		Vector3[] appr_path = pathfinding.FindPath(transform.position, trg.position);
+		if (appr_path.Length > 6){
+			pathNodes = new Vector3[6];
+			for (int i = 0; i < pathNodes.Length; i++) {
+				pathNodes[i] = appr_path[i];
+			}
+		}
+		else{
+			pathNodes = new Vector3[appr_path.Length-1];
+			for (int i = 0; i < pathNodes.Length; i++) {
+				pathNodes[i] = appr_path[i];
+			}
+		}
+		patroling = false;
+		destReached = false;
+		agent.destination = pathNodes[0];
+		MoveInPath(runningSpeed);
+	}
+
+	public int MovePoints{
+		get {return movePoints;}
+		set {movePoints = value;}
 	}
 }

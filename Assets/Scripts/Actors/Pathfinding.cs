@@ -6,8 +6,8 @@ public class Pathfinding: MonoBehaviour {
 
 	public bool is_grid;
 	public int step;
-	Node start_node;
-	Node end_node;
+	//Node start_node;
+	//Node end_node;
 
 	public  Vector3[] pass;
 
@@ -57,16 +57,16 @@ public class Pathfinding: MonoBehaviour {
 			for (int i = 0; i < allNodes.Length; i++) {
 				allNodes[i].Initiate();
 			}
-			start_node = start;
-			end_node = end;
-			start_node.curState = Node.State.Start;
-			end_node.curState = Node.State.Goal;
+			//start_node = start;
+			//end_node = end;
+			start.curState = Node.State.Start;
+			end.curState = Node.State.Goal;
 
 
-			ConnectStart();
+			ConnectStart(start, end);
 			step++;
 			for (int i = 0; i < allNodes.Length; i++) {
-				ProcessOpenNodes();
+				ProcessOpenNodes(end);
 				if (pass.Length > 0){
 					break;
 				}
@@ -94,16 +94,22 @@ public class Pathfinding: MonoBehaviour {
 			return pass;
 		}
 	}
-
-	private void ConnectStart (){
+	public Vector3[] FindPath(Vector3 start, Vector3 end){
+		Node startNode = FindClosestNode(start);
+		Node endNode = FindClosestNode(end);
+		Vector3[] result = FindPath(startNode, endNode);
+		return result;
+		
+	}
+	private void ConnectStart (Node start, Node end){
 		//foreach (Node x in start_node.connectedNodes){
 		//for (int i = 0; i < allNodes.Length; i++) {
-		Node[] connections = start_node.connectedNodes.ToArray(); 
+		Node[] connections = start.connectedNodes.ToArray(); 
 		for (int i = 0; i < connections.Length; i++) {
-			float distToStart = Vector3.Distance(start_node.Pos, connections[i].Pos);
-			float distToGoal = Vector3.Distance(connections[i].Pos, end_node.Pos);
+			float distToStart = Vector3.Distance(start.Pos, connections[i].Pos);
+			float distToGoal = Vector3.Distance(connections[i].Pos, end.Pos);
 
-			connections[i].parentNode = start_node;
+			connections[i].parentNode = start;
 			connections[i].curState = Node.State.Open;
 			connections[i].g_score = distToStart;
 			connections[i].h_score = distToGoal;
@@ -113,19 +119,19 @@ public class Pathfinding: MonoBehaviour {
 		//Debug.Log("Starting Node "+start_node + " connected");
 	}
 
-	public void MakeStep(){
+	/*public void MakeStep(){
 		if (step == 0){
 			ConnectStart();
 			step++;
 		}
 
 		else{
-			ProcessOpenNodes();
+			ProcessOpenNodes(end);
 			step++;
 		}
-	}
+	}*/
 
-	private void ProcessOpenNodes(){
+	private void ProcessOpenNodes(Node end){
 		//List<Node> open_nodes = new List<Node>();
 		Node best_node = null;
 		float best_score = Mathf.Infinity;
@@ -141,7 +147,7 @@ public class Pathfinding: MonoBehaviour {
 		}
 		if (best_node != null){
 			for (int i = 0; i < best_node.connectedNodes.Count; i++) {
-				BestParent(best_node.connectedNodes[i], best_node);
+				BestParent(best_node.connectedNodes[i], best_node, end);
 			}
 			best_node.curState = Node.State.Closed;
 		}
@@ -159,15 +165,15 @@ public class Pathfinding: MonoBehaviour {
 		}*/
 		else{
 			//Debug.LogWarning("All of the possible paths explored!");
-			pass = TruePath();
+			pass = TruePath(end);
 		}
 	}
 
-	void BestParent(Node node, Node p_parent){
+	void BestParent(Node node, Node p_parent, Node end){
 		//if (node.curState == Node.State.Active || node.curState == Node.State.Open){
 		if (node.curState != Node.State.Start && node.curState != Node.State.Closed){
 			float distToStart = p_parent.g_score + Vector3.Distance(p_parent.Pos, node.Pos);
-			float distToGoal = Vector3.Distance(node.Pos, end_node.Pos);
+			float distToGoal = Vector3.Distance(node.Pos, end.Pos);
 			float f_score = distToGoal + distToStart;
 			if (node.f_score == 0 || node.f_score > f_score){
 				node.g_score = distToStart;
@@ -182,9 +188,9 @@ public class Pathfinding: MonoBehaviour {
 		}
 	}
 	
-	private Vector3[] TruePath(){
+	private Vector3[] TruePath(Node end){
 		List<Node> bestPath = new List<Node>();
-		Node curNode = end_node;
+		Node curNode = end;
 		//float lowestScore = -1;
 		for (int i = 0; i < allNodes.Length; i++) {
 
@@ -212,7 +218,7 @@ public class Pathfinding: MonoBehaviour {
 
 		return result;
 	}
-	private bool NodeReachable(){
+	/*private bool NodeReachable(){
 		Vector3 start = start_node.Pos;
 		Vector3 end = end_node.Pos;
 		float goalDistance = Vector3.Distance(start, end);
@@ -224,7 +230,7 @@ public class Pathfinding: MonoBehaviour {
 			return false;
 		}
 		
-	}
+	}*/
 
 	public void EstablishConnections(float radius){
 		//Debug.Log("BuildingConnections");

@@ -1,6 +1,8 @@
+name|Corvis
 str|2
 dex|2
 con|1
 int|1
 wis|1
 cha|1
+speed|6

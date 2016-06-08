@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AIPerception : MonoBehaviour {
 
@@ -8,33 +9,56 @@ public class AIPerception : MonoBehaviour {
 
 	public float spotDist;
 	public float fov;
-	Transform player;
+	Transform[] enemies;
 	//Spotted target
-	Transform target;
+	Transform[] targets;
 
 	// Use this for initialization
 	void Start () {
-		
-		player = GameObject.FindWithTag("Player").transform;
+		//Find all enemy targets
+		Transform[] temp_targs = new Transform[0];
+		if (tag == "Enemy"){
+			temp_targs = LevelInitiator.FindObjectsOfTypeWithTag<Transform>("Ally");
+			Transform player = GameObject.FindWithTag("Player").transform;
+			enemies = new Transform[temp_targs.Length+1];
+			enemies[enemies.Length-1] = player;
+		}
+		else if (tag == "Ally"){
+			temp_targs = LevelInitiator.FindObjectsOfTypeWithTag<Transform>("Enemy");
+			enemies = new Transform[temp_targs.Length];
+		}
+
+		for (int i = 0; i < temp_targs.Length; i++) {
+			enemies[i] = temp_targs[i];
+		}
+		//set fov
 		SetFOV(fov);
+		targets = new Transform[0];
 	}
 
 	// Update is called once per frame
 	void Update () {
-		float distance = Vector3.Distance (transform.position, player.position);
-		if (distance <= spotDist*1.2f){
-			DrawVisionCone(4);	
-			bool spotted = SpotCheck(player.position);
-			if (spotted){
-				target = player;
+		
+		Sight();
+
+
+	}
+	void Sight(){
+		bool showing_cone = false;
+		for (int i = 0; i < enemies.Length; i++) {
+			float distance = Vector3.Distance (transform.position, enemies[i].position);
+			if (distance <= spotDist*1.2f){
+				if (!showing_cone){
+					DrawVisionCone(4);	
+				}
 			}
-			else {
-				target = null;
-			}
-		}
-
-
-
+			if (distance <= spotDist){
+				bool spotted = SpotCheck(enemies[i].position);
+				if (spotted){
+					AddTarget(enemies[i]);
+				}
+			}	
+		}	
 	}
 	public bool SpotCheck(Vector3 target){
 		float distance = Vector3.Distance (target, transform.position);
@@ -122,7 +146,15 @@ public class AIPerception : MonoBehaviour {
 
 	}
 
-	public Transform GetTarget(){
-		return target;
+	public Transform[] GetTargets(){
+		return targets;
 	}
+
+	public void AddTarget(Transform trg){
+		List<Transform> temp = new List<Transform>();
+		temp.AddRange(targets);
+		temp.Add(trg);
+		targets = temp.ToArray();
+	}
+
 }

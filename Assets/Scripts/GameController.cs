@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class GameController : MonoBehaviour {
 	GameStates prev_state;
 
 	//Things affected by state change
+	CharacterSheet[] charsheets;
 	AgentController[] agents;
 	ParticleSystem[] particles;
 	Animator[] animators;
@@ -18,10 +20,12 @@ public class GameController : MonoBehaviour {
 
 	PlayerVoice pVoice;
 	Pathfinding pathfinder;
+	CombatManager combat;
 
 	// Use this for initialization
 	void Start () {
 		agents = GameObject.FindObjectsOfType<AgentController>();
+		charsheets = LevelInitiator.GetComponentsOnObjects<CharacterSheet>(LevelInitiator.FindGameObjectsOfComponents(agents));
 		particles = LevelInitiator.FindObjectsOfTypeWithTag<ParticleSystem>("AffectedByPause");
 		animators = LevelInitiator.FindObjectsOfTypeWithTag<Animator>("AffectedByPause");
 		audiosources = LevelInitiator.FindObjectsOfTypeWithTag<AudioSource>("AffectedByPause");
@@ -30,6 +34,8 @@ public class GameController : MonoBehaviour {
 
 		enemies = GameObject.FindObjectsOfType<BasicEnemy>();
 		pathfinder = GameObject.FindObjectOfType<Pathfinding>();
+		combat = GameObject.FindObjectOfType<CombatManager>();
+
 
 	}
 	
@@ -89,20 +95,22 @@ public class GameController : MonoBehaviour {
 		prev_state = cur_state;
 		cur_state = GameStates.Combat;
 		Debug.Log("Game Switching to Combat state!");
+		List<CharacterSheet> combatants = new List<CharacterSheet>();
 		for (int i = 0; i < enemies.Length; i++) {
-			enemies[i].state = BasicEnemy.State.Combat;
-
-			pathfinder.ActivateNodes(enemies[i].transform.position);
-
+			if (enemies[i].state == BasicEnemy.State.Combat){
+				pathfinder.ActivateNodes(enemies[i].transform.position);
+				combatants.Add(enemies[i].gameObject.GetComponent<CharacterSheet>());
+			}
 		}
 		Transform player = GameObject.FindGameObjectWithTag("Player").transform;
 		pathfinder.ActivateNodes(player.position);
-		Debug.Log("Player "+player+" Activates grid!");
+		combatants.Add(player.GetComponent<CharacterSheet>());
+		//Debug.Log("Player "+player+" Activates grid!");
 
 		for (int i = 0; i < agents.Length; i++) {
 			Vector3 node_center = pathfinder.FindClosestNode(agents[i].transform.position).Pos;
 			agents[i].StrafeTo(node_center);
 		}
-
+		combat.SetParticipants(combatants.ToArray());
 	}
 }

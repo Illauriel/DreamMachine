@@ -22,7 +22,17 @@ public class RulesReader {
 		Debug.Log(result[0]);
 		return result;
 	}
-
+	public static string GetString(string handle, string sheet){
+		string result = "";
+		string[] lines = sheet.Split('\n');
+		for (int i = 0; i < lines.Length; i++) {
+			string[] substrings = lines[i].Split('|');
+			if (substrings[0] == handle){
+				result = substrings[1];
+			}
+		}
+		return result;
+	}
 	public static Weapon GetWeapon(string id, string list){
 		Weapon result = new Weapon();
 		string[] lines = list.Split('\n');

@@ -52,8 +52,10 @@ public class CharacterSheet : MonoBehaviour {
 
 	void Initialize(){
 		Debug.Log(name + " has "+charSheet);
+		charName = RulesReader.GetString("name", charSheet.text);
 		statValues = RulesReader.GetStats(new string[]{"str","dex","con","int","wis","cha"}, charSheet.text);
-
+		speed = RulesReader.GetStats(new string[]{"speed"}, charSheet.text)[0];
+		statBonuses = new int[statValues.Length];
 		cur_weapon = RulesReader.GetWeapon("sword1", weaponsList.text);
 	}
 

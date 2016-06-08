@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Node : MonoBehaviour {
 
-	public enum State {Active, Open, Closed, Start, Goal, Path};
+	public enum State {Active, Open, Closed, Start, Goal, Path, Blocked};
 	public State curState;
 	private Vector3 pos;
 	public float f_score;
@@ -54,17 +54,24 @@ public class Node : MonoBehaviour {
 			}
 			else{
 				if (!myRenderer.enabled){
-					myRenderer.enabled = true;
+					if (curState != State.Blocked){
+						myRenderer.enabled = true;
+					}
 					foreach(Node node in connectedNodes){
 						node.Reveal(cur_depth-1);
 					}
 				}
+
 			}
 		}
 	}
 	public void Initiate(){
-		curState = State.Active;
+		if (curState != State.Blocked){
+			curState = State.Active;
+		}
 		f_score = 0;
+		g_score = 0;
+		h_score = 0;
 		parentNode = null;
 	}
 
@@ -74,8 +81,8 @@ public class Node : MonoBehaviour {
 	}
 
 	public void Reveal(int depth){
-		if (depth > 0){
-			
+		if (depth > 0 ){
+			CheckPass();
 			reveal = true;
 			rev_timer = 0.1f;
 			cur_depth = depth;
@@ -83,5 +90,14 @@ public class Node : MonoBehaviour {
 	}
 	public void Colorize(Color col){
 		myRenderer.material.color = col;
+	}
+	void CheckPass(){
+		RaycastHit hit = new RaycastHit();
+		Ray ray = new Ray(pos+Vector3.up*4, Vector3.down);
+		if (Physics.Raycast(ray, out hit)){
+			if (hit.collider.gameObject.layer == 9){
+				curState = State.Blocked;
+			}
+		}
 	}
 }
