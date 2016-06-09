@@ -106,14 +106,16 @@ public class Pathfinding: MonoBehaviour {
 		//for (int i = 0; i < allNodes.Length; i++) {
 		Node[] connections = start.connectedNodes.ToArray(); 
 		for (int i = 0; i < connections.Length; i++) {
-			float distToStart = Vector3.Distance(start.Pos, connections[i].Pos);
-			float distToGoal = Vector3.Distance(connections[i].Pos, end.Pos);
+			if(connections[i].curState != Node.State.Blocked){
+				float distToStart = Vector3.Distance(start.Pos, connections[i].Pos);
+				float distToGoal = Vector3.Distance(connections[i].Pos, end.Pos);
 
-			connections[i].parentNode = start;
-			connections[i].curState = Node.State.Open;
-			connections[i].g_score = distToStart;
-			connections[i].h_score = distToGoal;
-			connections[i].f_score = distToStart + distToGoal;
+				connections[i].parentNode = start;
+				connections[i].curState = Node.State.Open;
+				connections[i].g_score = distToStart;
+				connections[i].h_score = distToGoal;
+				connections[i].f_score = distToStart + distToGoal;
+			}
 			//
 		}
 		//Debug.Log("Starting Node "+start_node + " connected");
@@ -171,7 +173,7 @@ public class Pathfinding: MonoBehaviour {
 
 	void BestParent(Node node, Node p_parent, Node end){
 		//if (node.curState == Node.State.Active || node.curState == Node.State.Open){
-		if (node.curState != Node.State.Start && node.curState != Node.State.Closed){
+		if (node.curState != Node.State.Start && node.curState != Node.State.Closed && node.curState != Node.State.Blocked){
 			float distToStart = p_parent.g_score + Vector3.Distance(p_parent.Pos, node.Pos);
 			float distToGoal = Vector3.Distance(node.Pos, end.Pos);
 			float f_score = distToGoal + distToStart;

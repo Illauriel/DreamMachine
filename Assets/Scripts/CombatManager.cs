@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class CombatManager : MonoBehaviour {
 
+	public GameObject sblorch;
 	CharacterSheet[] participants;
 	BasicEnemy[] ais;
 	//string[] participants;
@@ -68,7 +69,7 @@ public class CombatManager : MonoBehaviour {
 
 	public void NewTurn(){
 		cur_turn ++;
-		if (cur_turn > participants.Length){
+		if (cur_turn >= participants.Length){
 			NewRound();
 		}
 		else{
@@ -100,6 +101,10 @@ public class CombatManager : MonoBehaviour {
 			//Determine damage
 			int damage = BaseRules.Roll(attacker.cur_weapon.damage);
 			victim.cur_hp -= damage;
+			Vector3 attpos = attacker.transform.position;
+			Vector3 victpos = victim.transform.position;
+			Instantiate(sblorch, victpos, Quaternion.LookRotation(victpos-attpos));
+
 			Debug.Log(victim.charName+ " took "+damage+" damage." );
 		}
 	}
@@ -124,7 +129,14 @@ public class CombatManager : MonoBehaviour {
 
 
 	void OnGUI(){
+		GUI.Label(new Rect(Screen.width - 80, 10, 200, 40), "Round: "+cur_round);
 		for (int i = 0; i < participants.Length; i++) {
+			if (cur_turn == i){
+				GUI.color = Color.green;
+			}
+			else{
+				GUI.color = Color.white;
+			}
 			GUI.Label(new Rect(10, 10+20*i, 200, 40), participants[i].charName +" "+ initiative[i]);
 		}
 	}

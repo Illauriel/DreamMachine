@@ -49,16 +49,18 @@ public class BasicEnemy : MonoBehaviour {
 	}
 
 	void AICombat(){
-		if (!aController.destReached){
-			aController.MoveInPath();
-		}
-		else{
-			if (aController.MovePoints == 0){
-				hasMovePoints = false;
+		if (myturn){
+			if (!aController.destReached){
+				aController.MoveInPath();
 			}
-				
-			Decision();
+			else{
+				if (aController.MovePoints == 0){
+					hasMovePoints = false;
+				}
+					
+				Decision();
 
+			}
 		}
 	}
 
@@ -66,7 +68,7 @@ public class BasicEnemy : MonoBehaviour {
 		if (state == State.Patrol){
 			AIPatrol();
 		}
-		if (state == State.Combat && myturn){
+		if (state == State.Combat){
 			AICombat();
 		}
 
@@ -100,10 +102,13 @@ public class BasicEnemy : MonoBehaviour {
 		}
 		//stop previous movements
 		aController.CleanPath();
-		gc.StartCombat();
+		if (gc.cur_state != GameController.GameStates.Combat){
+			gc.StartCombat();
+		}
 	}
 
 	public void StartCombatTurn(){
+		Debug.Log(name + " starting turn");
 		myturn = true;
 		hasMovePoints = true;
 		hasSwiftAction = true;
