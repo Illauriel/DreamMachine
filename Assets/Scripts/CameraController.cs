@@ -23,23 +23,11 @@ public class CameraController : MonoBehaviour {
 		}
 		Vector2 input_axes = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-		if (input_axes != Vector2.zero){
-			//MoveInDirection (input_axes);
-		}
-		RaycastHit hit = new RaycastHit();
-		Vector3 player_foot = target.position-Vector3.up;
-		Ray ray = new Ray(transform.position, (player_foot - transform.position));
-		float range = Vector3.Distance(transform.position, player_foot);
-		int layerMask = 1 << 9;
-		if(Physics.Raycast(ray, out hit, range, layerMask)){
-			Wall wall = hit.collider.gameObject.GetComponentInParent<Wall>();
-			if (wall != null){
-				wall.HideSection(3);
-			}
-			else{
-				Debug.LogError("Wall "+hit.collider.name+" has no Wall script!");
-			}
-		}
+		ProbeWall(transform.position, Vector3.forward-Vector3.down);
+		//ProbeWall(Vector3.back*3);
+		ProbeWall(transform.position, Vector3.left-Vector3.down);
+		//ProbeWall(Vector3.right*3);
+
 	}
 	// Update is called once per frame
 	void LateUpdate () {
@@ -76,4 +64,48 @@ public class CameraController : MonoBehaviour {
 			//Debug.LogWarning ("No Target for the camera!");
 		}
 	}
+
+	public void ProbeWall(Vector3 start, Vector3 offset){
+		
+		Vector3 player_foot = target.position-offset;
+		Ray ray = new Ray(start, (player_foot - start));
+		float range = Vector3.Distance(start, player_foot);
+		//ProbeWall(ray);
+		RaycastHit hit = new RaycastHit();
+		int layerMask = 1 << 9;
+		Debug.DrawLine(start, (player_foot - start));
+		if(Physics.Raycast(ray, out hit, range, layerMask)){
+			//Wall wall = hit.collider.gameObject.GetComponentInParent<Wall>();
+			WallSorting wall = hit.collider.gameObject.GetComponentInParent<WallSorting>();;
+			if (wall != null){
+				//wall.HideSection(3);
+				wall.ToForeground();
+				wall.elevate = true;
+				//ProbeWall(ray);
+			}
+			else{
+				//Debug.LogError("Wall "+hit.collider.name+" has no Wall script!");
+			}
+		}
+	}
+	public void ProbeWall(Ray ray){
+		RaycastHit hit = new RaycastHit();
+		int layerMask = 1 << 9;
+		Debug.DrawLine(ray.origin, ray.direction);
+		if(Physics.Raycast(ray, out hit, 100, layerMask)){
+			//Wall wall = hit.collider.gameObject.GetComponentInParent<Wall>();
+			WallSorting wall = hit.collider.gameObject.GetComponentInParent<WallSorting>();;
+			if (wall != null){
+				//wall.HideSection(3);
+				wall.ToForeground();
+				wall.elevate = true;
+				//ProbeWall(ray);
+			}
+			else{
+				Debug.LogError("Wall "+hit.collider.name+" has no Wall script!");
+			}
+		}
+	}
+
+
 }
