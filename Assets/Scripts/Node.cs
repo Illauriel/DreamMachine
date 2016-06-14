@@ -28,10 +28,10 @@ public class Node : MonoBehaviour {
 
 	void Update(){
 		if (debug){ //&& parentNode == null){
-			foreach (Node node in connectedNodes){
+			/*foreach (Node node in connectedNodes){
 				Debug.DrawLine(pos, node.Pos, Color.blue);
 				Debug.Log("node exists");
-			}
+			}*/
 		
 			if(curState != State.Active && myRenderer != null){
 				if (curState == State.Open){
@@ -41,10 +41,14 @@ public class Node : MonoBehaviour {
 					//myRenderer.material.color = new Color(0.2f,1,1,1);
 				}
 				else if (curState == State.Goal){
-					//myRenderer.material.color = Color.magenta;
+					myRenderer.material.color = Color.red;
+				}
+				else if (curState == State.Path){
+					myRenderer.material.color = Color.magenta;
 				}
 				else {
-					//myRenderer.material.color = Color.yellow;
+					Debug.Log(curState);
+					myRenderer.material.color = Color.yellow;
 				}
 			}
 		}

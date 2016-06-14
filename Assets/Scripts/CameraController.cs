@@ -23,10 +23,10 @@ public class CameraController : MonoBehaviour {
 		}
 		Vector2 input_axes = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-		ProbeWall(transform.position, Vector3.forward-Vector3.down);
-		//ProbeWall(Vector3.back*3);
-		ProbeWall(transform.position, Vector3.left-Vector3.down);
-		//ProbeWall(Vector3.right*3);
+		//ProbeWall(transform.position, Vector3.forward-Vector3.down);
+
+		//ProbeWall(transform.position, Vector3.left-Vector3.down);
+
 
 	}
 	// Update is called once per frame

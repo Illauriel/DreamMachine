@@ -199,6 +199,8 @@ public class Pathfinding: MonoBehaviour {
 			bestPath.Add(curNode);
 			if (curNode.curState != Node.State.Start){
 				Node curparent = curNode.parentNode;
+				//TEST!
+				curparent.curState = Node.State.Path;
 				//bestPath.Add(curparent);
 				if (curparent != null){
 					curNode = curparent;

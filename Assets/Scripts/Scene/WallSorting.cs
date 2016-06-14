@@ -11,7 +11,7 @@ public class WallSorting : MonoBehaviour {
 	public bool elevate;
 	// Use this for initialization
 	void Start () {
-		gameObject.layer = LayerMask.NameToLayer("Wall");
+		//gameObject.layer = LayerMask.NameToLayer("Wall");
 		foreground = GameObject.Find("Foreground").transform;
 		background = GameObject.Find("Background").transform;
 	}
@@ -35,21 +35,43 @@ public class WallSorting : MonoBehaviour {
 			ToBackground();
 		}*/
 	}
+	void OnTriggerEnter(Collider col){
+		//Debug.Log("SmthEnter");
+		if (col.gameObject.tag == "Player"){
+			Debug.Log("Player Enter");
+			ToForeground();
+
+		}
+	}
+	void OnTriggerStay(Collider col){
+		if (col.gameObject.tag == "Player"){
+			if (sprite.parent != foreground){
+				ToForeground();
+			}
+		}
+	}
+	void OnTriggerExit(Collider col){
+		if (col.gameObject.tag == "Player"){
+			ToBackground();
+		}
+	}
 	/// <summary>
 	/// Moves the attached sprite to Foreground canvas.
 	/// </summary>
 	public void ToForeground(){
 		if (sprite.parent != foreground){
-			Debug.Log(name+" Foregrounding");
+			//Debug.Log(name+" Foregrounding");
 			//Transform[] siblingsToMove = new Transform[sprite.parent.childCount-index];
 			ParentTo(foreground);
 			//sprite.SetSiblingIndex(index);
+			DisableWall();
 		}
 	}
 
 	public void ToBackground(){
 		Debug.Log(name+" Backgrounding");
 		ParentTo(background);
+		EnableWall();
 		//sprite.SetSiblingIndex(index);
 	}
 
@@ -58,8 +80,22 @@ public class WallSorting : MonoBehaviour {
 		int siblingsToMove = sprite.parent.childCount-index;
 		for (int i = 0; i < siblingsToMove; i++) {
 			//sprite.SetParent(foreground, false);	
+			Debug.Log("Parenting "+sprite.parent.GetChild(index+i).name + " to "+parent);
 			sprite.parent.GetChild(index+i).SetParent(parent, false);
 		}
 
+	}
+
+	void DisableWall(){
+		for (int i = 0; i < linkedWalls.Length; i++) {
+			Wall thiswall = linkedWalls[i].GetComponent<Wall>();
+			thiswall.HideSection(0);
+		}
+	}
+	void EnableWall(){
+		for (int i = 0; i < linkedWalls.Length; i++) {
+			Wall thiswall = linkedWalls[i].GetComponent<Wall>();
+			thiswall.ShowSection(0);
+		}
 	}
 }

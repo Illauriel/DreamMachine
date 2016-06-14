@@ -12,7 +12,8 @@ public class SquareGrid : MonoBehaviour {
 		for (int i = 0; i < coords.Length; i++) {
 			GameObject new_tile = (GameObject) Instantiate(tile, coords[i], tile.transform.rotation);
 			new_tile.transform.parent = tile_container.transform;
-			new_tile.AddComponent<Node>();
+			Node node = new_tile.AddComponent<Node>();
+			node.debug = true;
 			new_tile.GetComponent<MeshRenderer>().enabled = false;
 			new_tile.name = "Tile("+i+")";
 		}

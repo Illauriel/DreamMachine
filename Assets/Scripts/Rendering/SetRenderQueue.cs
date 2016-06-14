@@ -26,9 +26,9 @@ public class SetRenderQueue : MonoBehaviour {
 		}
 	}
 
-	/*void Update(){
+	void Update(){
 		for (int i = 0; i < materials.Length && i < m_queues.Length; ++i) {
 			materials[i].renderQueue = m_queues[i];
 		}
-	}*/
+	}
 }

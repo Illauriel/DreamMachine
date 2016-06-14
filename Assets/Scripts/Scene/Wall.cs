@@ -46,9 +46,9 @@ public class Wall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!hiding_wall.enabled){
+		/*if (!hiding_wall.enabled){
 			hiding_wall.enabled = true;
-		}
+		}*/
 	}
 
 	public void HideSection(int depth){
@@ -56,6 +56,14 @@ public class Wall : MonoBehaviour {
 		if (depth>0){
 			for (int i = 0; i < neighbors.Length; i++) {
 				neighbors[i].HideSection(depth-1);
+			}
+		}
+	}
+	public void ShowSection(int depth){
+		hiding_wall.enabled = true;
+		if (depth>0){
+			for (int i = 0; i < neighbors.Length; i++) {
+				neighbors[i].ShowSection(depth-1);
 			}
 		}
 	}
