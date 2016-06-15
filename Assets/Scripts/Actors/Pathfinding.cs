@@ -199,14 +199,23 @@ public class Pathfinding: MonoBehaviour {
 			bestPath.Add(curNode);
 			if (curNode.curState != Node.State.Start){
 				Node curparent = curNode.parentNode;
-				//TEST!
-				curparent.curState = Node.State.Path;
+
+
 				//bestPath.Add(curparent);
 				if (curparent != null){
+					//TEST!
+
+
+					
 					curNode = curparent;
+					if (curparent.curState != Node.State.Start){
+						curparent.curState = Node.State.Path;
+					}
 				}
 				else{
-					//Debug.LogWarning("Achtung! Item "+curNode.gameObject.name+" Has no parents but is on optimal path!");
+					Debug.LogWarning("Achtung! Item "+curNode.gameObject.name+" Has no parents but is on optimal path!");
+					Debug.Log(curNode.curState);
+					break;
 				}
 			}
 			else{

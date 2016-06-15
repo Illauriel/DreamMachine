@@ -9,13 +9,13 @@ public class SpriteAnimator : MonoBehaviour {
 	int cur_index = -1;
 	GameObject cursprite;
 
-	Animator[] animators;
-
+	//Animator[] animators;
+	Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		//animators = new Animator[directions.Length];
-		animators = LevelInitiator.GetComponentsOnObjects<Animator>(sprites);
+		//animators = LevelInitiator.GetComponentsOnObjects<Animator>(sprites);
 		ProcessDirection();
 	}
 	
@@ -30,10 +30,10 @@ public class SpriteAnimator : MonoBehaviour {
 	}
 
 	public void SetFloat(string f_name, float value){
-		animators[cur_index].SetFloat(f_name, value);
+		//animators[cur_index].SetFloat(f_name, value);
 	}
 	public void SetBool(string b_name, bool value){
-		animators[cur_index].SetBool(b_name, value);
+		//animators[cur_index].SetBool(b_name, value);
 	}
 
 	void ProcessDirection(){
@@ -42,6 +42,7 @@ public class SpriteAnimator : MonoBehaviour {
 			int dir_index = -1;
 			if (y_angle > directions[directions.Length-1] || y_angle <= directions[0]){
 				dir_index = 0;
+				//Debug.Log(0+" Angle "+y_angle+" falls between "+directions[directions.Length-1] + " and "+directions[0]);
 			}
 			else{
 				for (int i = 1; i < directions.Length; i++) {
@@ -52,7 +53,7 @@ public class SpriteAnimator : MonoBehaviour {
 						dir_index = i;
 					}
 					else{
-						Debug.Log(i + "The rotation of "+y_angle+" degrees missed range "+ min_angle+"-"+max_angle);
+						//Debug.Log(i + "The rotation of "+y_angle+" degrees missed range "+ min_angle+"-"+max_angle);
 					}
 				}
 			}
@@ -60,11 +61,17 @@ public class SpriteAnimator : MonoBehaviour {
 				Debug.LogError("The rotation of "+y_angle+" degrees is a failure");
 			}
 			if (dir_index != cur_index){
-				
+				double anim_phase = 0;
+				if (anim != null){
+					anim_phase = anim.GetTime();
+				}
 				cur_index = dir_index;
+
 				Destroy(cursprite);
 				Debug.Log("Instatioating object "+ cur_index);
 				cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
+				anim = cursprite.GetComponent<Animator>();
+				anim.SetTime(anim_phase);
 				//cursprite.transform.parent = transform;
 			}
 		}

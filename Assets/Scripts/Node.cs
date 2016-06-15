@@ -47,7 +47,7 @@ public class Node : MonoBehaviour {
 					myRenderer.material.color = Color.magenta;
 				}
 				else {
-					Debug.Log(curState);
+					//Debug.Log(curState);
 					myRenderer.material.color = Color.yellow;
 				}
 			}
