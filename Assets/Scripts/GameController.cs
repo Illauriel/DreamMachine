@@ -81,7 +81,8 @@ public class GameController : MonoBehaviour {
 			particles[i].Play(true);
 		}
 		for (int i = 0; i < motors.Length; i++) {
-			motors[i].RestartMotor();
+			//motors[i].RestartMotor();
+			motors[i].Activate();
 		}
 		for (int i = 0; i < animators.Length; i++) {
 			animators[i].enabled = true;
