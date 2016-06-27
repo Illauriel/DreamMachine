@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Motor : MonoBehaviour {
+public class Motor : ActivatableItem {
+
+	public enum MotorState {Start, Running, Halt, Stopped, End};
+	public MotorState cur_state;
 	public Transform obj;
 	Vector3 startRotation;
 	public AudioClip motionSound;
@@ -17,8 +20,9 @@ public class Motor : MonoBehaviour {
 
 	public bool pingPong;
 	public bool playOnAwake;
+	public bool stopIsHalt;
 
-	bool running;
+	//bool running;
 	bool reverse;
 	AudioSource src;
 
@@ -33,15 +37,17 @@ public class Motor : MonoBehaviour {
 			src.loop = false;
 			src.clip = motionSound;
 		}
-
+		//moveTimer = transitionTime;
 		if (playOnAwake){
 			StartMotor();
 		}
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (running) {
+		//if (running) {
+		if (isRunning){
 			if (reverse){
 				moveTimer += Time.deltaTime;
 				if (moveTimer > transitionTime){
@@ -72,7 +78,7 @@ public class Motor : MonoBehaviour {
 
 		}
 
-		if (!running && pingPong){
+		if ((cur_state == MotorState.Start || cur_state == MotorState.End) && pingPong){
 			waitTimer += Time.deltaTime;
 			if (waitTimer > waitTime){
 				StartMotor();
@@ -80,44 +86,62 @@ public class Motor : MonoBehaviour {
 		}
 	}
 
-	public void Activate(){
-		if (!running){
-			Debug.Log("Moving "+obj.name);
+	new public void Activate(){
+		if (!isRunning){
 			StartMotor();
 
 		}
 		else{
-			Debug.Log ("Stopping "+obj.name);
-			StopMotor();
+			if (stopIsHalt){
+				HaltMotor();
+			}
+			else{
+				
+				StopMotor();
+			}
 		}
 	}
 
-	public void StartMotor(){
-		running = true;
-		reverse = !reverse;
+	void StartMotor(){
+		Debug.Log("Moving "+obj.name);
+		//running = true;
+		if (cur_state != MotorState.Halt){
+			reverse = !reverse;
+		}
 		waitTimer = 0;
 		PlaySound();
+		cur_state = MotorState.Running;
 	}
 
-	public void RestartMotor(){
+	/*public void RestartMotor(){
 		if ((reverse && moveTimer >= transitionTime)||moveTimer <= 0){
 			//Nothing happens because moveTimer is over
 		}
 		else {
-			running = true;
+			cur_state = MotorState.Running;
 			PlaySound();
 		}
 
-	}
+	}*/
 	public void HaltMotor(){
-		running = false;
+		Debug.Log ("Halting "+obj.name);
+		cur_state = MotorState.Halt;
 		PauseSound();
 	}
 
-	public void StopMotor(){
-		running = false;
+	void StopMotor(){
+		Debug.Log ("Stopping "+obj.name);
+		if (reverse && moveTimer > transitionTime){
+			cur_state = MotorState.End;
+		}
+		else if (!reverse && moveTimer < 0){
+			cur_state = MotorState.Start;
+		}
+		else{
+			cur_state = MotorState.Stopped;
+		
+		}
 		StopSound();
-
 	}
 
 	void PlaySound(){
@@ -137,6 +161,12 @@ public class Motor : MonoBehaviour {
 	}
 
 	public bool isRunning{
-		get{return running;}
+		get{
+			bool running = false;
+			if (cur_state == MotorState.Running){
+				running = true;
+			}
+			return running;
+		}
 	}
 }
