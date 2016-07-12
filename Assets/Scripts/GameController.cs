@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour {
 	PlayerVoice pVoice;
 	Pathfinding pathfinder;
 	CombatManager combat;
+	GUIManager gui;
 
 	// Use this for initialization
 	void Start () {
@@ -35,6 +36,7 @@ public class GameController : MonoBehaviour {
 		enemies = GameObject.FindObjectsOfType<BasicEnemy>();
 		pathfinder = GameObject.FindObjectOfType<Pathfinding>();
 		combat = GameObject.FindObjectOfType<CombatManager>();
+		gui = GameObject.FindObjectOfType<GUIManager>();
 
 
 	}
@@ -114,4 +116,20 @@ public class GameController : MonoBehaviour {
 		}
 		combat.SetParticipants(combatants.ToArray());
 	}
+	public void StartDialogue(){
+		prev_state = cur_state;
+		Pause();
+		cur_state = GameStates.Dialogue;
+		Debug.Log("Game Switching to Dialogue state!");
+		gui.EnableDialogue();
+
+	}
+
+	public void EndDialogue(){
+		cur_state = prev_state;
+		Debug.Log("Dialogue End");
+		Unpause();
+		gui.DisableDialogue();
+	}
+
 }

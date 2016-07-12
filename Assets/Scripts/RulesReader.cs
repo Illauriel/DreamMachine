@@ -41,14 +41,14 @@ public class RulesReader {
 
 
 			if (substrings[0] == id){
-				result.name = substrings[1];
+				result.w_name = substrings[1];
 				result.damage = substrings[2];
 				result.damageType = Weapon.DamageType.Crushing;
 				result.description = substrings[4];
 			}
 
 		}
-		if (result.name == ""){
+		if (result.w_name == ""){
 			return null;
 		}
 		return result;

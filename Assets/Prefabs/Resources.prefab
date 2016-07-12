@@ -1,0 +1,264 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &149724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 449724}
+  - 114: {fileID: 11449716}
+  - 114: {fileID: 11449718}
+  - 114: {fileID: 11449720}
+  - 114: {fileID: 11449722}
+  - 114: {fileID: 11449724}
+  - 114: {fileID: 11449714}
+  - 114: {fileID: 11449712}
+  m_Layer: 0
+  m_Name: Resources
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &449724
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11449712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7af7130ff9b94c7fa61f84b0dd87e4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objnames:
+  - camera
+  - core
+  objects:
+  - {fileID: 0}
+  - {fileID: 0}
+  clipnames:
+  - flyby
+  - arch
+  clips:
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &11449714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a884b16f6e4344e74978da41280e6237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alphabet:
+  - "\u0430"
+  - "\u0431"
+  - "\u0432"
+  - "\u0433"
+  - "\u0434"
+  - "\u0435"
+  - "\u0451"
+  - "\u0436"
+  - "\u0437"
+  - "\u0438"
+  - "\u0439"
+  - "\u043A"
+  - "\u043B"
+  - "\u043C"
+  - "\u043D"
+  - "\u043E"
+  - "\u043F"
+  - "\u0440"
+  - "\u0441"
+  - "\u0442"
+  - "\u0443"
+  - "\u0444"
+  - "\u0445"
+  - "\u0446"
+  - "\u0447"
+  - "\u0448"
+  - "\u0449"
+  - "\u044A"
+  - "\u044B"
+  - "\u044C"
+  - "\u044D"
+  - "\u044E"
+  - "\u044F"
+  vwl:
+  - {fileID: 11400000, guid: 2dc40ebe82d1e4c67a6091d6f458fc52, type: 2}
+  - {fileID: 11400000, guid: 42b4d8ea2400a4da6aad069ab3e0ef29, type: 2}
+  - {fileID: 11400000, guid: 618f45d9c02a14e41a285853e2c56080, type: 2}
+  character_id:
+  - sylvie dress
+  - sylvie old
+  - sylvie spacer
+  places:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &11449716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f08d1f4e2943a4b94e4c60cfcc5221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_refreshTime: .5
+--- !u!114 &11449718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1dbb0f9e69739434eb15c4d359a7c20c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3b5a7356b9db14356a40892e84c3f4a2, type: 2}
+  textbox: {fileID: 0}
+  namebox: {fileID: 0}
+  arrow: {fileID: 0}
+  choicemenu:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  controls:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  text: {fileID: 0}
+  charname: {fileID: 0}
+  zeit: {fileID: 0}
+  geotag: {fileID: 0}
+  fforw: {fileID: 0}
+  floatan: {fileID: 0}
+  backlog: {fileID: 0}
+  charcount: 0
+  norm_read_speed: 0
+  fast_read_speed: 0
+  fast: 0
+  inputdelay: 0
+--- !u!114 &11449720
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41cf4cf3465844e928e481fc6c0c1c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3b5a7356b9db14356a40892e84c3f4a2, type: 2}
+  under: {fileID: 0}
+  places:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ghosts: []
+  placenames:
+  - 
+  - cright
+  - right
+  - center
+  - cleft
+  - left
+  active_tags: []
+  active_proprties: []
+  curtimer: 0
+  fadeouttimer: []
+  fadeintimer: []
+  transition: 0
+  inTransit: 0
+  shake: {fileID: 0}
+--- !u!114 &11449722
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed4ebcbafcb2d4457bfeaeb85f2ecc41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  txt: {fileID: 4900000, guid: 7463ef13837fb4b39b9e90703133c08f, type: 3}
+  line_id: 1
+  fast: 0
+  stop: 1
+  lines: []
+  menuon: {fileID: 0}
+  menuoff: {fileID: 0}
+  cur_label: 
+  back_log: 
+  credits: {fileID: 0}
+  aud: {fileID: 0}
+  ani: {fileID: 0}
+  par: {fileID: 0}
+--- !u!114 &11449724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dee7270f98ef34f6e9148df0d737ffab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 3b5a7356b9db14356a40892e84c3f4a2, type: 2}
+  channels: []
+  channelNames:
+  - music
+  - sound
+  - ambience
+  - sound2
+  autoloop: 
+  volume: 1
+  fade: []
+  seconds: []
+  fresh: 
+  temp: {fileID: 0}
+  mark_of_death: 0
+  death_time: 0
+  waiting: 0
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 149724}
+  m_IsPrefabParent: 1
+  m_IsExploded: 1
