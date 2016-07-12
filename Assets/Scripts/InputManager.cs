@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour {
 	AgentController player;
 	CameraController cam;
 	Interact interact;
+	LineInterpreter interpreter;
 
 	//public bool inCombat;
 
@@ -28,11 +29,29 @@ public class InputManager : MonoBehaviour {
 			Debug.LogError("An Interact script is not attached to the main camera!");
 		}
 		game_controller = gameObject.GetComponent<GameController>();
+		interpreter = GameObject.FindObjectOfType<LineInterpreter>();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (game_controller.cur_state == GameController.GameStates.Normal){
+			NormalMode();
+		}
+		else if (game_controller.cur_state == GameController.GameStates.Dialogue){
+			DialogueMode();
+
+		}
+		else if (game_controller.cur_state == GameController.GameStates.Combat){
+			CombatMode();
+		}
+		else{
+			PauseMode();
+		}
+
+	}
+
+	void NormalMode(){
 		if (Input.GetMouseButtonDown(0)){
 			//Vector3 destination = Vector3.zero;
 			if (game_controller.cur_state != GameController.GameStates.Combat){
@@ -42,8 +61,23 @@ public class InputManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space)){
 			game_controller.TogglePause();
 		}
-	}
 
+	}
+	void DialogueMode(){
+		if (Input.GetMouseButtonDown(0)){
+			if (!interpreter.menuOpen){
+				Debug.Log("Click!");
+				interpreter.line_id++;
+				interpreter.AnalyzeLine(interpreter.line_id);
+			}
+		}
+	}
+	void CombatMode(){
+
+	}
+	void PauseMode(){
+		
+	}
 
 	void RayProbe(){
 		RaycastHit hit = new RaycastHit();

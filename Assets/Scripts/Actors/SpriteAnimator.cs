@@ -68,7 +68,7 @@ public class SpriteAnimator : MonoBehaviour {
 				cur_index = dir_index;
 
 				Destroy(cursprite);
-				Debug.Log("Instatioating object "+ cur_index);
+				//Debug.Log("Instatioating object "+ cur_index);
 				cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
 				anim = cursprite.GetComponent<Animator>();
 				anim.SetTime(anim_phase);

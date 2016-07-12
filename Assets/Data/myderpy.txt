@@ -1,0 +1,39 @@
+
+label start:
+	"       "
+label poststart:
+
+    # 
+	# play music  fadein 5
+
+	show mc normal at left
+	# scene bg city
+	"I wus in da dungeon when suddenly I saw her"
+	show minion normal at right
+	# with dissolve
+ 
+	d "Oh MC you are so sexee!"
+	hide derpy
+	# with dissolve
+
+	# show mc normal at left
+	m "Uh oh"
+
+	menu: 
+	"Kisu oni-sama":
+	jump oni
+
+	"Bukkake":
+	jump buku
+
+
+ label oni:
+ 	"Okay onii chan"
+
+ 	return
+
+ label buku:
+ 	"Looks like schmalzkaese oni-chan!"
+
+
+    end

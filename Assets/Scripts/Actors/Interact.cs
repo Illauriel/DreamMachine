@@ -128,7 +128,7 @@ public class Interact : MonoBehaviour {
 		// if switch obj
 		else if (type == InteractiveItem.ItemType.Switch){
 			//Cast type
-			Switch sw_item =  hit.collider.GetComponent<Switch>();;
+			Switch sw_item =  hit.collider.GetComponent<Switch>();
 			Debug.Log(sw_item);
 
 			//Find keys
@@ -181,6 +181,10 @@ public class Interact : MonoBehaviour {
 				}
 			}
 
+		}
+		else if (type == InteractiveItem.ItemType.NPC){
+			NPC npc = hit.collider.gameObject.GetComponent<NPC>();
+			npc.Interact();
 		}
 		// if hiding object
 		/*else if (item.type == InteractiveItem.ItemType.Hiding){

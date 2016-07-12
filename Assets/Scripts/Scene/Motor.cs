@@ -103,7 +103,7 @@ public class Motor : ActivatableItem {
 	}
 
 	void StartMotor(){
-		Debug.Log("Moving "+obj.name);
+		//Debug.Log("Moving "+obj.name);
 		//running = true;
 		if (cur_state != MotorState.Halt){
 			reverse = !reverse;

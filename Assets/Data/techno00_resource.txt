@@ -1,0 +1,11 @@
+# === BACKGROUNDS
+ 
+
+ 
+# === CHARACTERS
+ image mc normal
+ image minion normal
+
+# === MUSIC
+
+# === SOUND EFFECTS 

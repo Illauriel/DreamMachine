@@ -12,14 +12,14 @@ public class CombatManager : MonoBehaviour {
 	int cur_round; //switches round for ticking abilities and stuff
 	int cur_turn; //lists through all participants
 
-	GUIManager ui;
+	//GUIManager ui;
 
 	// Use this for initialization
 	void Start () {
 		participants = new CharacterSheet[0];
 		initiative = new int[0];
 
-		ui = GetComponent<GUIManager>();
+		//ui = GetComponent<GUIManager>();
 		/* //Test with strings instead of charsheets
 		participants = new string[]{"Mikasa", "Yoba", "Taylan", "Miko", "Hitler"};
 		initiative = new int[]{21, 15, 1, 22, 40};
@@ -86,11 +86,11 @@ public class CombatManager : MonoBehaviour {
 		if (participants[cur_turn].aiControlled){
 			Debug.Log("It's "+participants[cur_turn].charName + " turn! " );
 			ais[cur_turn].StartCombatTurn();
-			ui.skip.interactable = false;
+			//ui.skip.interactable = false;
 		}
 		else{
 			Debug.Log("It's player turn");
-			ui.skip.interactable = true;
+			//ui.skip.interactable = true;
 		}
 	}
 
