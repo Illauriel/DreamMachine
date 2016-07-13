@@ -204,7 +204,7 @@ return
 label derp:
 
     # 
-	# play music  fadein 5
+	# play sound sheit
 
 	show mc normal at left
 	# scene bg city
