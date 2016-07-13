@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour {
 	Pathfinding pathfinder;
 	CombatManager combat;
 	GUIManager gui;
+	SquareGrid s_grid;
 
 	// Use this for initialization
 	void Start () {
@@ -37,8 +38,12 @@ public class GameController : MonoBehaviour {
 		pathfinder = GameObject.FindObjectOfType<Pathfinding>();
 		combat = GameObject.FindObjectOfType<CombatManager>();
 		gui = GameObject.FindObjectOfType<GUIManager>();
+		s_grid = GameObject.FindObjectOfType<SquareGrid>();
 
+		gui.DisableDialogue();
+		gui.EnableNormal();
 
+		s_grid.GridContainer.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -95,23 +100,24 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void StartCombat(){
+		s_grid.GridContainer.SetActive(true);
 		prev_state = cur_state;
 		cur_state = GameStates.Combat;
 		Debug.Log("Game Switching to Combat state!");
 		List<CharacterSheet> combatants = new List<CharacterSheet>();
 		for (int i = 0; i < enemies.Length; i++) {
 			if (enemies[i].state == BasicEnemy.State.Combat){
-				pathfinder.ActivateNodes(enemies[i].transform.position);
+				//pathfinder.ActivateNodes(enemies[i].transform.position);
 				combatants.Add(enemies[i].gameObject.GetComponent<CharacterSheet>());
 			}
 		}
 		Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-		pathfinder.ActivateNodes(player.position);
+		//pathfinder.ActivateNodes(player.position);
 		combatants.Add(player.GetComponent<CharacterSheet>());
 		//Debug.Log("Player "+player+" Activates grid!");
 
 		for (int i = 0; i < agents.Length; i++) {
-			Vector3 node_center = pathfinder.FindClosestNode(agents[i].transform.position).Pos;
+			Vector3 node_center = s_grid.GetCell(agents[i].transform.position).Position();
 			agents[i].StrafeTo(node_center);
 		}
 		combat.SetParticipants(combatants.ToArray());
@@ -122,6 +128,7 @@ public class GameController : MonoBehaviour {
 		cur_state = GameStates.Dialogue;
 		Debug.Log("Game Switching to Dialogue state!");
 		gui.EnableDialogue();
+		gui.DisableNormal();
 
 	}
 
@@ -130,6 +137,7 @@ public class GameController : MonoBehaviour {
 		Debug.Log("Dialogue End");
 		Unpause();
 		gui.DisableDialogue();
+		gui.EnableNormal();
 	}
 
 }

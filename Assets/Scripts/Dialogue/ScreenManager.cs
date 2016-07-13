@@ -41,7 +41,15 @@ public class ScreenManager : MonoBehaviour {
 		places[plc_id].image.sprite = spr_data.sprites[spr_id].sprite;
 	}
 
-
+	public void HideImage(string tag){
+		for (int i = 0; i < places.Length; i++) {
+			if (places[i].active_tag == tag){
+				places[i].active_tag = "";
+				places[i].image.sprite = spr_data.blank;
+				break;
+			}
+		}
+	}
 
 	public int FindSprite (string tag, string id) {
 		for (int i = 0; i < spr_data.sprites.Length; i++) {

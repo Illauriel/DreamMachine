@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour {
 	void DialogueMode(){
 		if (Input.GetMouseButtonDown(0)){
 			if (!interpreter.menuOpen){
-				Debug.Log("Click!");
+				//Debug.Log("Click!");
 				interpreter.line_id++;
 				interpreter.AnalyzeLine(interpreter.line_id);
 			}

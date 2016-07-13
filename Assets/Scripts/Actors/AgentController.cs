@@ -21,7 +21,7 @@ public class AgentController : MonoBehaviour {
 	AudioSource stepSrc;
 
 	//Node movement
-	Pathfinding pathfinding;
+	AStar pathfinding;
 	public Transform[] patrolNodes;
 	int curNode;
 	int movePoints;
@@ -36,7 +36,7 @@ public class AgentController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//gc = LevelInitiator.GetGameController();
-		pathfinding = GameObject.FindObjectOfType<Pathfinding>();
+		pathfinding = GameObject.FindObjectOfType<AStar>();
 		agent = GetComponent<NavMeshAgent>();
 		marker = (GameObject) Instantiate(destMarker, agent.transform.position, Quaternion.identity);
 		stepSrc = gameObject.AddComponent<AudioSource>();
@@ -202,19 +202,25 @@ public class AgentController : MonoBehaviour {
 		
 	}
 
-	public void ApproachTarget(Transform trg){
-		Vector3[] appr_path = pathfinding.FindPath(transform.position, trg.position);
-		if (appr_path.Length > 6){
+	public void ApproachTarget(int trg){
+
+		pathfinding.SetStart(transform.position);
+		pathfinding.SetDestination(trg);
+		Vector3[] appr_path = pathfinding.FindPath();
+		if (appr_path.Length > movePoints){
 			pathNodes = new Vector3[6];
 			for (int i = 0; i < pathNodes.Length; i++) {
 				pathNodes[i] = appr_path[i];
 			}
 		}
-		else{
-			pathNodes = new Vector3[appr_path.Length-1];
+		else if (appr_path.Length > 0){
+			pathNodes = new Vector3[appr_path.Length];
 			for (int i = 0; i < pathNodes.Length; i++) {
 				pathNodes[i] = appr_path[i];
 			}
+		}
+		else {
+			return;
 		}
 		patroling = false;
 		destReached = false;

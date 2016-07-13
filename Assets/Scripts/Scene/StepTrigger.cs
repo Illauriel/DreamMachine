@@ -5,7 +5,6 @@ public class StepTrigger : MonoBehaviour {
 	public string voice_id;
 	PlayerVoice p_voice;
 	public Switch triggerSwitch;
-	public bool activateCombat;
 
 	void Start(){
 		GameObject player_obj = GameObject.FindGameObjectWithTag("Player");
@@ -25,9 +24,7 @@ public class StepTrigger : MonoBehaviour {
 	void OnTriggerEnter(Collider col){
 		if (col.tag == "Player"){
 			//Debug.Log (p_voice);
-			if (activateCombat){
-				GameObject.Find("GameController").GetComponent<Pathfinding>().ActivateNodes(transform.position);
-			}
+
 			p_voice.Play(voice_id);
 
 			if (triggerSwitch != null){

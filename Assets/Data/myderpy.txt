@@ -1,19 +1,19 @@
 
 label start:
-<<<<<<< HEAD
+" "
 	
 label poststart:
 
     # 
-    play music "zaris" fadein 5
+   
 
-    scene bg city
+    # scene bg city
     m "Ungh... Where am I? What happened?"
-    show derpy normal at cright
+    # show derpy normal at cright
  
     d "We found you unconscious. It would appear that you fell off the castle tower..."
     d "Yet somehow you survived. It's a miracle!"
-    show mc normal at cleft
+    # show mc normal at cleft
 
     m "Yes, I remember... You're not far off, a miracle might very well be what saved me."
     m "You must be from the eastern kingdom, if I'm not mistaken."
@@ -63,10 +63,11 @@ label afterchoice:
 		"Hero leaves the tent without looking back."
 
 	d "..."
+	end
 
 
 label stone01:
-	// Here d isn't akio but the stone, handlers will have to be replaced
+	# Here d isn't akio but the stone, handlers will have to be replaced
 	d "Young master, if I may make a suggestion? You can use my power to destroy obstacles such as this... if I am in a good mood."
 	d "Is that not oh so generous of me?"
 
@@ -87,7 +88,7 @@ label positive01:
 	m "However I still like to think that there is some reason in you. And I think that we can restore this place to its former glory together."
 
 	d "..."
-		// Stone's mood will improve
+		# Stone's mood will improve
 
 
 label negative01:
@@ -100,7 +101,7 @@ label negative01:
 	d "I did nothing wrong. My master uttered a wish and, as foolish as it was, I had to comply and do my work."
 
 	m "Indeed... let's leave it at that."
-		// Stone's mood will decrease
+		# Stone's mood will decrease
 
 
 
@@ -200,7 +201,7 @@ return
 
 =======
 	"       "
-label poststart:
+label derp:
 
     # 
 	# play music  fadein 5
@@ -220,6 +221,7 @@ label poststart:
 
 	menu: 
 	"Kisu oni-sama":
+	hide mc
 	jump oni
 
 	"Bukkake":
@@ -228,7 +230,7 @@ label poststart:
 
  label oni:
  	"Okay onii chan"
-
+ 	hide derpy
  	return
 
  label buku:

@@ -37,10 +37,12 @@ public class GUIController : MonoBehaviour {
 	}
 
 	public void WriteText (string txt) {
+		namebox.SetActive(false);
 		text.text = txt;
 	}
 	public void ShowCharName (string name) {
-
+		namebox.SetActive(true);
+		charname.text = name;
 	}
 	public void SavePanel(){
 		animator.SetTrigger("EnableSave");

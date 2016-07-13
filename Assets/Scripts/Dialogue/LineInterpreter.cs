@@ -128,6 +128,7 @@ public class LineInterpreter : MonoBehaviour {
 			//Debug.Log(id+ ". A wild MENU approaches!"); 
 			//MenuManager(line_id);
 			//NewMenuManager(id);
+			Debug.Log("Line: "+id+"");
 			ReadMenu(id);
 			//AdvanceStep();
 		} 
@@ -272,6 +273,7 @@ public class LineInterpreter : MonoBehaviour {
 				}
 			}
 			scr.DrawImage(substrings[1]);*/
+			scr.HideImage(substrings[1]);
 			AdvanceStep();
 		} 
 		else if (substrings[0] == "with" ){

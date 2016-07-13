@@ -19,9 +19,12 @@ public class ADVHandler : MonoBehaviour {
 
 	public void Say(int id, string text){
 		gui.WriteText(text);
+		gui.ShowName(id);
 	}
 
 	public void Say(string text){
-		gui.WriteText(text);
+		if (gui != null){
+			gui.WriteText(text);
+		}
 	}
 }

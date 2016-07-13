@@ -23,6 +23,8 @@ public class BasicEnemy : MonoBehaviour {
 
 	GameController gc;
 	CombatManager combat;
+	InfluenceMaps inf;
+	SquareGrid s_grid;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +36,9 @@ public class BasicEnemy : MonoBehaviour {
 
 		gc = GameObject.FindObjectOfType<GameController>();
 		combat = GameObject.FindObjectOfType<CombatManager>();
+		inf = GameObject.FindObjectOfType<InfluenceMaps>();
+		s_grid = GameObject.FindObjectOfType<SquareGrid>();
+
 		charsheet.aiControlled = true;
 		enemies = new CharacterSheet[0];
 	}
@@ -130,8 +135,11 @@ public class BasicEnemy : MonoBehaviour {
 			hasAttackAction = false;
 		}
 		else if(hasMovePoints) {
+			int dest = SelectDestination();
+
 			//Else approach target
-			aController.ApproachTarget(target.transform);
+
+			aController.ApproachTarget(dest);
 			Debug.Log("I approach");
 		}
 		else {
@@ -139,6 +147,20 @@ public class BasicEnemy : MonoBehaviour {
 			myturn = false;
 			combat.NewTurn();
 		}
+	}
+
+	int SelectDestination(){
+		//GetInfluenceMap
+		int side_id = 0;
+		if (gameObject.tag == "Enemy"){
+			side_id = 1;
+		}
+		s_grid.RefreshCellStatus();
+		float[] map = inf.GetMap(side_id);
+		int my_pos = s_grid.GetCellId(s_grid.GetCell(transform.position));
+		int result = inf.FindDestination(my_pos, aController.MovePoints, map);
+		Debug.Log("Chose "+s_grid.all_cells[result].x + ":" + s_grid.all_cells[result].y);
+		return result;
 	}
 
 	void SelectTarget(){
