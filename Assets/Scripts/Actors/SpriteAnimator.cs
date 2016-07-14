@@ -11,22 +11,37 @@ public class SpriteAnimator : MonoBehaviour {
 
 	//Animator[] animators;
 	Animator anim;
-
+	string[] curspriteAnims;
+	int[] hashes;
+	string curstate;
 	// Use this for initialization
 	void Start () {
 		//animators = new Animator[directions.Length];
 		//animators = LevelInitiator.GetComponentsOnObjects<Animator>(sprites);
 		ProcessDirection();
+		curspriteAnims = new string[0];
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 		ProcessDirection();
+		if (anim != null){
+			AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
+			for (int i = 0; i < curspriteAnims.Length; i++) {
+				if (state.shortNameHash == hashes[i]){
+					curstate = curspriteAnims[i];
+				}
+				//Debug.Log(state.shortNameHash + " "+ state.fullPathHash +" " +state.tagHash);
+			}
+
+		}
 	}
 	void LateUpdate(){
-		cursprite.transform.position = transform.position;
-		cursprite.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+		if(cursprite != null){
+			cursprite.transform.position = transform.position;
+			cursprite.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+		}
 	}
 
 	public void SetFloat(string f_name, float value){
@@ -34,6 +49,18 @@ public class SpriteAnimator : MonoBehaviour {
 	}
 	public void SetBool(string b_name, bool value){
 		//animators[cur_index].SetBool(b_name, value);
+	}
+
+	public void GetAnims(){
+		anim = cursprite.GetComponent<Animator>();
+		curspriteAnims = new string[anim.runtimeAnimatorController.animationClips.Length];
+		hashes = new int[curspriteAnims.Length];
+		for (int i = 0; i < anim.runtimeAnimatorController.animationClips.Length; i++) {
+			curspriteAnims[i] = anim.runtimeAnimatorController.animationClips[i].name;
+			hashes[i] = Animator.StringToHash(curspriteAnims[i]);
+		//	Debug.Log(curspriteAnims[i] + " hash " + hashes[i]);
+		}
+			
 	}
 
 	void ProcessDirection(){
@@ -68,16 +95,35 @@ public class SpriteAnimator : MonoBehaviour {
 				cur_index = dir_index;
 
 				Destroy(cursprite);
-				//Debug.Log("Instatioating object "+ cur_index);
-				cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
-				anim = cursprite.GetComponent<Animator>();
-				anim.SetTime(anim_phase);
-				//cursprite.transform.parent = transform;
+				if (sprites[cur_index] != null){
+					Debug.Log("Instatioating object "+ cur_index);
+					cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
+					anim = cursprite.GetComponent<Animator>();
+					anim.SetTime(anim_phase);
+					//cursprite.transform.parent = transform;
+					GetAnims();
+				}
+				else {
+					Debug.Log("Sprite "+cur_index+" is unassigned!");
+				}
 			}
 		}
 
 		else{
 			Debug.LogError("The sprites on "+name+ " are broken!");
 		}
+	}
+
+
+	void OnGUI(){
+		
+		for (int i = 0; i < curspriteAnims.Length; i++) {
+			if (GUI.Button(new Rect(10,10+20*i, 100, 20), curspriteAnims[i])){
+				anim.Play(curspriteAnims[i]);
+			}
+		}
+		GUI.color = Color.blue;
+		GUI.Label(new Rect(120,10, 500, 100), "Currently playing: "+curstate);
+		GUI.color = Color.white;
 	}
 }

@@ -13,10 +13,10 @@ public class InfluenceMaps : MonoBehaviour {
 	void Start () {
 		s_grid = GameObject.FindObjectOfType<SquareGrid>();
 		visited = new List<int>();
-		markers = new GameObject[s_grid.all_cells.Length];
+		/* markers = new GameObject[s_grid.all_cells.Length];
 		for (int i = 0; i < markers.Length; i++) {
 			markers[i] = (GameObject) Instantiate(marker, s_grid.all_cells[i].Position(), marker.transform.rotation);
-		}
+		} */
 	}
 	
 	// Update is called once per frame

@@ -1,0 +1,241 @@
+
+label start:
+	""
+	
+label poststart:
+
+    # 
+   
+
+    # scene bg city
+    m "Ungh... Where am I? What happened?"
+    # show derpy normal at cright
+ 
+    d "We found you unconscious. It would appear that you fell off the castle tower..."
+    d "Yet somehow you survived. It's a miracle!"
+    # show mc normal at cleft
+
+    m "Yes, I remember... You're not far off, a miracle might very well be what saved me."
+    m "You must be from the eastern kingdom, if I'm not mistaken."
+
+    d "Indeed! I am Akio and these are my humble knight brethren."
+    d "We came to the castle to bring the king our greatest treasure; the holy blade Onikiri."
+    d "But alas, we found the castle already in this sorry state."
+    d "We made our way through the cursed garden to see what was happening inside, only to find the main gate locked."
+
+    m "I have to hurry back to the castle! I can open the gate no prob- ...!?"
+    	"Hero searches in his bags frantically"
+
+    d "You must be looking for this. We found you holding it, so I took good care of it. A most curious design. What might it be?"
+
+    menu:
+
+        "Tell Akio about the true nature of the wishing stone":
+            jump toldtruth
+            
+        "Keep the stone's power a secret":
+            jump keptsecret
+
+
+label toldtruth:
+	m "This stone is what caused this place to change like that. Yet it is the only thing that can restore it and stop the nightmare from growing."
+
+	d "I see... A most terrifying trinket indeed."
+
+	m "Yes, but not to worry! As long as I am the one holding it, nothing bad will happen."
+
+	d "In that case, please do keep it safe and let nobody take it from you."
+			jump afterchoice
+
+label keptsecret:
+	m "This stone is our kingdom's most valuable heirloom, which I was sent to deliver to the king. And I still intend to do so, even if it's the last thing I do."
+
+	d "I see. Then our goals are the same! Why do we not work together, to make our journey less perilous?"
+
+	m "I am sorry, friend, for I work alone. But should you ever need my help, then I will hurry to your aid, and I hope you will do the same."
+
+	d "I thought you might say that. Fair enough, friend."
+			jump afterchoice
+
+
+label afterchoice:
+	m "I am forever in your debt, but I must depart now. May the gods watch over, and lady luck smile upon you."
+		"Hero leaves the tent without looking back."
+
+	d "..."
+	end
+
+
+label stone01:
+	# Here d isnt akio but the stone, handlers will have to be replaced
+	d "Young master, if I may make a suggestion? You can use my power to destroy obstacles such as this... if I am in a good mood."
+	d "Is that not oh so generous of me?"
+
+	menu:
+
+		"I appreciate it. I couldn't do it without you.":
+			jump positive01
+
+		"Do you really have a choice?":
+			jump negative01
+
+
+label positive01:
+	d "Ahh, considering you are of the people who confined me within this stone, you are quite well mannered I must say."
+	d "I suppose you may count on me then."
+
+	m "I will let you know, that I cannot forgive you for what you did here..."
+	m "However I still like to think that there is some reason in you. And I think that we can restore this place to its former glory together."
+
+	d "..."
+		# Stones mood will improve
+
+
+label negative01:
+	d "But of course, I see..."
+	d "You are not exactly wrong, but you're not exactly right either."
+	d "I do have to realize my master's every wish, but remember the King's folly; not every wish is well put."
+
+	m "Yes, I realize that. I will be careful with my wishes. And I won't forgive you for what you did."
+
+	d "I did nothing wrong. My master uttered a wish and, as foolish as it was, I had to comply and do my work."
+
+	m "Indeed... let's leave it at that."
+		# Stones mood will decrease
+
+
+
+label treesploded:
+	d "Yes yes, all in a day's work. Incidentally, young master, why don't you just wish for me to restore this whole place to its former self?"
+
+	m "Because I know better. Our people have used your power for millenia, yet our kingdom has not fallen into chaos."
+	m "That is because we only make small wishes, and only if absolutely necessary."
+	m "If I wished for you to restore everything to the way it was, maybe you would return this land to a time where this kingdom didn't even exist."
+
+	d "If only King Drovaric had been so wise..."
+	d "Well you seem very capable by yourself. With some additional help by me, you should be able to clean up this mess in no time!"
+
+	m "We shall see. I have a bad feeling about this."
+
+
+label meetminion:
+	m "What the hell is that?!"
+
+	d "You! Give food!"
+
+	m "Oh? It can talk?"
+
+	d "Young master, there is more to this creature than meets the eye."
+
+	m "How so?"
+
+	d "I detect mixed life force readings from it. Part of it stems from the nightmare, but at its core it's a creature native to this place."
+	d "It would appear that it was a resident of this place, only the nightmare changed its appearance."
+
+	m "I see..."
+
+	d "Furthermore it does not seem to be hostile."
+	d "Though its intelligence seems dismal, even compared to young master, maybe we could use it to our advantage!"
+
+	m "I suppose I could try that. You there! Follow me and help me ward off my foes."
+
+	"The minion picks its nose."
+
+	d "It seems to be fond of food."
+
+	m "Right... You there! From now on you shall be my minion and obey my every command. As a reward I will bestow food upon you."
+
+	d "Food? Give food!"
+
+	m "Yes... Yes, I will. I really wonder if I can rely on this thing. I might be able to use it as bait if I get attacked."
+
+
+label treebridge:
+	d "You are welcome, once again. I do not normally serve as substitute for a woodcutter's axe. You are lucky I am in a good mood."
+
+	m "How so?"
+
+	d "You know, sometimes when I'm in a bad mood, I have problems concentrating."
+	d "Would have been unfortunate, had this tree fallen to the wrong side and buried you beneath it, would it not?"
+
+	m "I'll be sure to remember!"
+
+
+label brokenfloor:
+	m "Damn, there's a key on the other side, but I can't reach it."
+
+	d "That is just unfortunate..."
+
+	m "I'll find a way."
+
+
+label freezewater:
+	d "What an interesting idea. Did you come up with that yourself, or did a minion give it to you?"
+
+	m "Ah, belittling my mortal intellect. Very funny. Let's move on."
+
+
+label meetakio:
+	d "Ahh, there you are friend! After seeing what horrors lurk in these gardens, I had feared for the worst."
+
+	m "I can take care of myself. But say, what are you doing here without your knights?"
+
+	d "We got separated. I hope they are well. They are fine warriors but they lack a holy weapon like mine."
+	d "The creatures running rampant in this area are creatures of impurity. The Onikiri banishes the impure."
+
+	m "I see... What are you going to do now?"
+
+	d "I will remain here and wait for my companions. Please tell them to regroup here if you meet them."
+
+	m "Will do. Hang in there!"
+
+
+label repeatakio
+	d "I will remain here and wait for my companions. Please tell them to regroup here if you meet them."
+
+
+return
+
+
+
+
+
+	"      "
+label derp:
+
+    # 
+	# play sound sheit
+
+	show mc normal at left
+	# scene bg city
+	"I wus in da dungeon when suddenly I saw her"
+	show minion normal at right
+	# with dissolve
+ 
+	d "Oh MC you are so sexee!"
+	hide derpy
+	# with dissolve
+
+	# show mc normal at left
+	m "Uh oh"
+
+	menu: 
+	"Kisu oni-sama":
+	hide mc
+	jump oni
+
+	"Bukkake":
+	jump buku
+
+
+ label oni:
+ 	"Okay onii chan"
+ 	hide derpy
+ 	return
+
+ label buku:
+ 	"Looks like schmalzkaese oni-chan!"
+
+
+    end
+

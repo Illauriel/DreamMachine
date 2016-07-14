@@ -5,6 +5,7 @@
 # === CHARACTERS
  image mc normal
  image minion normal
+ image oldguy normal
 
 # === MUSIC
 
