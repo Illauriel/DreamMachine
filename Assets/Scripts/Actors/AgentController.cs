@@ -32,12 +32,14 @@ public class AgentController : MonoBehaviour {
 	//values for pausing
 	bool sv_autobraking;
 	Vector3 sv_velocity;
+	SpriteAnimator anim;
 
 	// Use this for initialization
 	void Start () {
 		//gc = LevelInitiator.GetGameController();
 		pathfinding = GameObject.FindObjectOfType<AStar>();
 		agent = GetComponent<NavMeshAgent>();
+		anim = GetComponent<SpriteAnimator>();
 		marker = (GameObject) Instantiate(destMarker, agent.transform.position, Quaternion.identity);
 		stepSrc = gameObject.AddComponent<AudioSource>();
 		stepSrc.spatialBlend = 1;
@@ -54,15 +56,31 @@ public class AgentController : MonoBehaviour {
 		}
 		*/
 
+		if (tag == "Player" && Input.GetKeyDown(KeyCode.S)){
+			anim.SetBool("cast", true);
+		}
 
 		//stepsounds
 		if (agent.velocity.magnitude > 0){
+			
 
+			//Sounds
 			step_timer -= agent.velocity.magnitude + Time.deltaTime;
 			if (step_timer < 0){
 				PlayStepSound();
 				//Debug.Log(agent.velocity.magnitude);
 				step_timer = 40f;
+			}
+		}
+		//Animate
+
+		if (anim != null && agent.velocity.magnitude > 0.1f){
+			anim.SetBool("walk", true);
+			anim.SetBool("cast", false);
+		}
+		else{
+			if (anim != null){
+				anim.SetBool("walk", false);
 			}
 		}
 		//Marker

@@ -4,6 +4,7 @@
  
 # === CHARACTERS
  image mc normal
+ image mc angry
  image minion normal
  image oldguy normal
 

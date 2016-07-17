@@ -8,25 +8,29 @@ label poststart:
    
 
     # scene bg city
+    show mc normal at left
     m "Ungh... Where am I? What happened?"
     # show derpy normal at cright
- 
+ 	show oldguy normal at right
     d "We found you unconscious. It would appear that you fell off the castle tower..."
     d "Yet somehow you survived. It's a miracle!"
     # show mc normal at cleft
-
+    show mc angry
     m "Yes, I remember... You're not far off, a miracle might very well be what saved me."
+    show mc normal
     m "You must be from the eastern kingdom, if I'm not mistaken."
 
     d "Indeed! I am Akio and these are my humble knight brethren."
     d "We came to the castle to bring the king our greatest treasure; the holy blade Onikiri."
     d "But alas, we found the castle already in this sorry state."
-    d "We made our way through the cursed garden to see what was happening inside, only to find the main gate locked."
+    d "We made our way through the cursed garden to see what was happening inside..."
+    d "...only to find the main gate locked."
 
     m "I have to hurry back to the castle! I can open the gate no prob- ...!?"
     	"Hero searches in his bags frantically"
 
-    d "You must be looking for this. We found you holding it, so I took good care of it. A most curious design. What might it be?"
+    d "You must be looking for this. We found you holding it, so I took good care of it."
+    d "A most curious design. What might it be?"
 
     menu:
 
@@ -38,7 +42,8 @@ label poststart:
 
 
 label toldtruth:
-	m "This stone is what caused this place to change like that. Yet it is the only thing that can restore it and stop the nightmare from growing."
+	m "This stone is what caused this place to change like that."
+	m "Yet it is the only thing that can restore it and stop the nightmare from growing."
 
 	d "I see... A most terrifying trinket indeed."
 
@@ -48,7 +53,8 @@ label toldtruth:
 			jump afterchoice
 
 label keptsecret:
-	m "This stone is our kingdom's most valuable heirloom, which I was sent to deliver to the king. And I still intend to do so, even if it's the last thing I do."
+	m "This stone is our kingdom's most valuable heirloom, which I was sent to deliver to the king."
+	m "And I still intend to do so, even if it's the last thing I do."
 
 	d "I see. Then our goals are the same! Why do we not work together, to make our journey less perilous?"
 

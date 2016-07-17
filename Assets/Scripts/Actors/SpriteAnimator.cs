@@ -44,11 +44,13 @@ public class SpriteAnimator : MonoBehaviour {
 		}
 	}
 
+
 	public void SetFloat(string f_name, float value){
-		//animators[cur_index].SetFloat(f_name, value);
+		anim.SetFloat(f_name, value);
 	}
 	public void SetBool(string b_name, bool value){
-		//animators[cur_index].SetBool(b_name, value);
+		anim.SetBool(b_name, value);
+		Debug.Log(gameObject.name + " sets bool "+b_name);
 	}
 
 	public void GetAnims(){
@@ -99,6 +101,7 @@ public class SpriteAnimator : MonoBehaviour {
 					Debug.Log("Instatioating object "+ cur_index);
 					cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
 					anim = cursprite.GetComponent<Animator>();
+					anim.Play(curstate);
 					anim.SetTime(anim_phase);
 					//cursprite.transform.parent = transform;
 					GetAnims();
@@ -117,7 +120,7 @@ public class SpriteAnimator : MonoBehaviour {
 
 	void OnGUI(){
 		
-		for (int i = 0; i < curspriteAnims.Length; i++) {
+		/*for (int i = 0; i < curspriteAnims.Length; i++) {
 			if (GUI.Button(new Rect(10,10+20*i, 100, 20), curspriteAnims[i])){
 				anim.Play(curspriteAnims[i]);
 			}
@@ -125,5 +128,6 @@ public class SpriteAnimator : MonoBehaviour {
 		GUI.color = Color.blue;
 		GUI.Label(new Rect(120,10, 500, 100), "Currently playing: "+curstate);
 		GUI.color = Color.white;
+	}*/
 	}
 }
