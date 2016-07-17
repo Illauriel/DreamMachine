@@ -164,7 +164,7 @@ public class SquareGrid : MonoBehaviour {
 		RaycastHit hit = new RaycastHit();
 		if (Physics.Raycast(ray_up, out hit, margin)){
 			result = new Vector3(origin.x, hit.point.y + gridElevation, origin.z);
-			Debug.Log(result);
+			//Debug.Log(result);
 		}
 		else if (Physics.Raycast(ray_down, out hit, margin)){
 			result = new Vector3(origin.x, hit.point.y + gridElevation, origin.z);

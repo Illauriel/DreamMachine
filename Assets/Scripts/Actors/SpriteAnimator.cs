@@ -18,8 +18,9 @@ public class SpriteAnimator : MonoBehaviour {
 	void Start () {
 		//animators = new Animator[directions.Length];
 		//animators = LevelInitiator.GetComponentsOnObjects<Animator>(sprites);
-		ProcessDirection();
+
 		curspriteAnims = new string[0];
+		ProcessDirection();
 	}
 	
 	// Update is called once per frame
@@ -55,12 +56,14 @@ public class SpriteAnimator : MonoBehaviour {
 
 	public void GetAnims(){
 		anim = cursprite.GetComponent<Animator>();
-		curspriteAnims = new string[anim.runtimeAnimatorController.animationClips.Length];
-		hashes = new int[curspriteAnims.Length];
-		for (int i = 0; i < anim.runtimeAnimatorController.animationClips.Length; i++) {
-			curspriteAnims[i] = anim.runtimeAnimatorController.animationClips[i].name;
-			hashes[i] = Animator.StringToHash(curspriteAnims[i]);
-		//	Debug.Log(curspriteAnims[i] + " hash " + hashes[i]);
+		if (anim != null && anim.runtimeAnimatorController != null){
+			curspriteAnims = new string[anim.runtimeAnimatorController.animationClips.Length];
+			hashes = new int[curspriteAnims.Length];
+			for (int i = 0; i < anim.runtimeAnimatorController.animationClips.Length; i++) {
+				curspriteAnims[i] = anim.runtimeAnimatorController.animationClips[i].name;
+				hashes[i] = Animator.StringToHash(curspriteAnims[i]);
+			//	Debug.Log(curspriteAnims[i] + " hash " + hashes[i]);
+			}
 		}
 			
 	}
@@ -98,13 +101,15 @@ public class SpriteAnimator : MonoBehaviour {
 
 				Destroy(cursprite);
 				if (sprites[cur_index] != null){
-					Debug.Log("Instatioating object "+ cur_index);
+					Debug.Log("Instatioating object "+ cur_index + " "+ gameObject.name);
 					cursprite = (GameObject) Instantiate(sprites[cur_index], transform.position, Quaternion.identity);
 					anim = cursprite.GetComponent<Animator>();
-					anim.Play(curstate);
-					anim.SetTime(anim_phase);
-					//cursprite.transform.parent = transform;
-					GetAnims();
+					if (anim != null){
+						GetAnims();
+						anim.Play(curstate);
+						anim.SetTime(anim_phase);
+						//cursprite.transform.parent = transform;
+					}	
 				}
 				else {
 					Debug.Log("Sprite "+cur_index+" is unassigned!");
