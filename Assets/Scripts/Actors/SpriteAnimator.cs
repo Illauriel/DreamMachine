@@ -40,7 +40,7 @@ public class SpriteAnimator : MonoBehaviour {
 	}
 	void LateUpdate(){
 		if(cursprite != null){
-			cursprite.transform.position = transform.position;
+			cursprite.transform.position = transform.position-Vector3.up;
 			cursprite.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
 		}
 	}
